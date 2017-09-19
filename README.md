@@ -1,2 +1,2 @@
 # periodic-table-gen
-Periodic Table Generator
+Periodic Table Element generator
