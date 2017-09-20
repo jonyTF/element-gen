@@ -1,15 +1,97 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<script src="jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<meta charset="utf-8">
+	<title>Random Element Generator</title>
+	<style>
+	#main{
+		position: absolute;
+		text-align: center;
+		top:40%;
+		width: 100%;
+		padding-bottom: 10px;	
+	}
+	#element {
+		padding-top: 10px;
+	}
+	#elementList {list-style-type: none; margin: 0; padding: 0}
+	#elementList li {padding: 5px 10px;}
+	#elementList li:nth-child(odd) {background: #eee;}
+	#elementListContainer {width: 30%; overflow-y: scroll;}
+	
+	body {height: 100%;}
+	</style>
 </head>
 <body>
-    <p id="data"></p>
-    <p>test</p>
+	<div id="elementListContainer">
+		<ul id="elementList"></ul>
+	</div>
+	
+	<div id="main">
+	<button id="mainBtn" type="button" class="btn btn-primary">Generate Random Element</button>
+	<div id="element">	
+	</div>
+	<button id="revealBtn" type="button" class="btn btn-secondary">Reveal Symbol</button>
+	</div>
 </body>
+<script src="PeriodicTableJSON.js"></script>
 <script>
-    $.getJSON('PeriodicTableJSON.json', function(data) {
-        
-    });
-    ('#data').html('lol');
+	$('#elementListContainer').css('height', $(window).height()); //want to do this BEFORE page loads
+	$('#revealBtn').hide();
+	
+	$(function() {
+		//variable Elements is an object containing all the elements in the periodic table
+		var elementArr = [];
+		var randElementID;
+		var curElement;
+		var revealed = true;
+		var windowHeight = $(window).height();
+		
+		$(window).resize(function() {
+			$('#elementListContainer').css('height', $(window).height());
+		});
+		
+		$('#mainBtn').click(function() {
+			if (!revealed) {
+				$('#elementList').append('<li>' + curElement.number + ' - ' + curElement.name + ' - ' + curElement.symbol + '</li>');
+				autoScroll();
+			}
+			revealed = false;
+			
+			randElementID = Math.floor(Math.random() * Elements.elements.length);
+			//console.log('before', randElementID);
+			while (elementArr.includes(randElementID)) {
+				console.log('Element already picked');
+				console.log(randElementID, elementArr);
+				randElementID = Math.floor(Math.random() * Elements.elements.length);
+			}
+			
+			//console.log('after', randElementID);
+			curElement = Elements.elements[randElementID];
+			$('#element').html('<h4>' + curElement.number + '</h4>' + '<p>' + curElement.name + '</p>');
+			$('#revealBtn').show();
+			elementArr.push(randElementID);
+			//$('#element').css('border', '1px solid black');
+		});
+		
+		$('#revealBtn').click(function() {
+			revealed = true;
+			$('#revealBtn').hide();
+			$('#element').append('<h3><b>' + curElement.symbol + '<b></p>');
+			$('#elementList').append('<li>' + curElement.number + ' - ' + curElement.name + ' - ' + curElement.symbol + '</li>');
+			autoScroll();
+		});
+		
+		function autoScroll() {
+			if ($('#elementListContainer')[0].scrollTop + $('#elementListContainer')[0].clientHeight > $('#elementListContainer')[0].scrollHeight - 50) {
+					$('#elementListContainer').stop().animate({ scrollTop: $('#elementListContainer')[0].scrollHeight}, 1000);
+					//$msgContainer.scrollTop = $msgContainer.scrollHeight;
+			}
+		}
+	});
+    
 </script>
 </html>
