@@ -92,10 +92,9 @@
 		});
 		
 		function autoScroll() {
-			if ($('#elementListContainer')[0].scrollTop + $('#elementListContainer')[0].clientHeight > $('#elementListContainer')[0].scrollHeight - 50) {
-					$('#elementListContainer').stop().animate({ scrollTop: $('#elementListContainer')[0].scrollHeight}, 1000);
-					//$msgContainer.scrollTop = $msgContainer.scrollHeight;
-			}
+			
+			$('#elementListContainer').stop().animate({ scrollTop: $('#elementListContainer')[0].scrollHeight}, 1000);
+			
 		}
 	});
     
