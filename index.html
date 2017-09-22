@@ -62,20 +62,24 @@
 			}
 			revealed = false;
 			
-			randElementID = Math.floor(Math.random() * Elements.elements.length);
-			//console.log('before', randElementID);
-			while (elementArr.includes(randElementID)) {
-				console.log('Element already picked');
-				console.log(randElementID, elementArr);
+			if (elementArr.length < Elements.elements.length) {
 				randElementID = Math.floor(Math.random() * Elements.elements.length);
-			}
-			
-			//console.log('after', randElementID);
-			curElement = Elements.elements[randElementID];
-			$('#element').html('<h4>' + curElement.number + '</h4>' + '<p>' + curElement.name + '</p>');
-			$('#revealBtn').show();
-			elementArr.push(randElementID);
-			//$('#element').css('border', '1px solid black');
+				//console.log('before', randElementID);
+				while (elementArr.includes(randElementID)) {
+					console.log('Element already picked');
+					console.log(randElementID, elementArr);
+					randElementID = Math.floor(Math.random() * Elements.elements.length);
+				}
+
+				//console.log('after', randElementID);
+				curElement = Elements.elements[randElementID];
+				$('#element').html('<h4>' + curElement.number + '</h4>' + '<p>' + curElement.name + '</p>');
+				$('#revealBtn').show();
+				elementArr.push(randElementID);
+				//$('#element').css('border', '1px solid black');
+			} else {
+				$('#element').html('<h4>That\'s all the elements!</h4>');
+			}    
 		});
 		
 		$('#revealBtn').click(function() {
