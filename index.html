@@ -56,13 +56,13 @@
 		});
 		
 		$('#mainBtn').click(function() {
-			if (!revealed) {
-				$('#elementList').append('<li>' + curElement.number + ' - ' + curElement.name + ' - ' + curElement.symbol + '</li>');
-				autoScroll();
-			}
-			revealed = false;
-			
 			if (elementArr.length < Elements.elements.length) {
+				if (!revealed) {
+					$('#elementList').append('<li>' + curElement.number + ' - ' + curElement.name + ' - ' + curElement.symbol + '</li>');
+					autoScroll();
+				}
+				revealed = false;
+			
 				randElementID = Math.floor(Math.random() * Elements.elements.length);
 				//console.log('before', randElementID);
 				while (elementArr.includes(randElementID)) {
@@ -79,6 +79,7 @@
 				//$('#element').css('border', '1px solid black');
 			} else {
 				$('#element').html('<h4>That\'s all the elements!</h4>');
+				$('#revealBtn').hide();
 			}    
 		});
 		
